@@ -7,6 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import se.omegapoint.pingpongapp.bussiness.HighScoreEntry;
 import se.omegapoint.pingpongapp.entity.*;
 import se.omegapoint.pingpongapp.repository.MatchRepository;
 import se.omegapoint.pingpongapp.repository.MatchSequenceRepository;
@@ -46,11 +47,11 @@ public class Application {
 			scoreService.CreateScoreEntry(match2, p2, 1);
 			scoreService.CreateScoreEntry(match2, p3, 0);
 
-			for (ScoreEntry e: scoreService.ListHighScore()) {
-				var matchNo = e.getMatch().getMatchNo();
-				var playerName = e.getPlayer().getName();
-				var score = e.getScore();
-				System.out.println("Match: %d, Player: %s, Score: %d".formatted(matchNo, playerName,score));
+			System.out.println("HIGHSCORE:");
+			for (HighScoreEntry e: scoreService.ListHighScore()) {
+				var playerName = e.player.getName();
+				var score = e.score;
+				System.out.println("\tPlayer: %s, Score: %d".formatted(playerName,score));
 			}
 		};
 	}
