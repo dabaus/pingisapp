@@ -22,3 +22,8 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+jar {
+	archiveBaseName = 'pingpong-gradle'
+	archiveVersion =  '0.0.1'
+}
