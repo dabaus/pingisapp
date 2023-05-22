@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pingpong-api
+  labels: 
+    app: web
+
+spec:
+  containers:
+    - name: api-car
+      image: dabaus/pingpong-api
+      imagePullPolicy: Never
+      ports:
+        - containerPort: 8080 

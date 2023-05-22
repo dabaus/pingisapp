@@ -1,1 +1,3 @@
 rootProject.name = 'pingpongapp'
+include 'pingpong-api'
+include 'pingpong-worker'

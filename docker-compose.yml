@@ -1,9 +1,16 @@
 version: '3.9'
 
 services:
-  pingpongapp:
+  pingpong-api:
     build:
       context: .
-      dockerfile: ./Dockerfile
+      dockerfile: pingpong-api/Dockerfile
+    image: dabaus/pingpong-api
     ports:
      - "8080:8080"
+
+  pingpong-worker:
+    build:
+      context: .
+      dockerfile: pingpong-worker/Dockerfile
+    image: dabaus/pingpong-worker
