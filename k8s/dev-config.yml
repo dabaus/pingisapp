@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dev-config
+  namespace: default
+data:
+  MY_CONFIG_KEY: value

@@ -19,5 +19,8 @@ spec:
       - name: pingpong-api
         image: dabaus/pingpong-api
         imagePullPolicy: Never
+        envFrom: 
+        - configMapRef:
+            name: dev-config
         ports:
         - containerPort: 8080
