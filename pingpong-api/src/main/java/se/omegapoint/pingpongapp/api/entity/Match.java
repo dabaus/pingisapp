@@ -1,6 +1,7 @@
 package se.omegapoint.pingpongapp.api.entity;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Generated;
+import se.omegapoint.pingpongapp.api.dto.MatchDto;
 
 import java.util.UUID;
 
@@ -37,6 +38,10 @@ public class Match {
 
     public Long getMatchNo() {
         return matchNo.nubmer;
+    }
+
+    public MatchDto toMatchDto() {
+        return new MatchDto(this.id, this.gameType, this.matchNo.nubmer);
     }
 
 }

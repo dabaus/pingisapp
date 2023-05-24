@@ -26,14 +26,15 @@ public class ScoreServiceImpl implements ScoreService {
     public List<HighScoreEntry> ListHighScore() {
         var entires = new ArrayList<HighScoreEntry>();
         var session = sessionFactory.openSession();
-        var query = session.createQuery("""
+        var query = session.createSelectionQuery("""
 SELECT p.id, p.name, SUM(e.score) FROM ScoreEntry e 
 INNER JOIN Player p ON p.id = e.player 
 GROUP BY p.id, p.name
 ORDER BY SUM(e.score) DESC
 """);
 
-        List<Object[]> rows = query.list();
+        @SuppressWarnings("unchecked")
+        var rows = (List<Object[]>)query.getResultList();
         for (var r :rows) {
             var player = new Player();
             player.setId(UUID.fromString(r[0].toString()));

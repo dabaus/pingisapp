@@ -43,9 +43,8 @@ public class Application {
 
 			System.out.println("HIGHSCORE:");
 			for (HighScoreEntry e: scoreService.ListHighScore()) {
-				var playerName = e.player.getName();
-				var score = e.score;
-				System.out.println("\tPlayer: %s, Score: %d".formatted(playerName,score));
+				var dto = e.toDto();
+				System.out.println("\tPlayer: %s, Score: %d".formatted(dto.player().name(), dto.score()));
 			}
 		};
 	}

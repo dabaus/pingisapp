@@ -44,5 +44,6 @@ public class ScoreEntry {
     public int getScore() {
         return this.score;
     }
+    public UUID getId() { return this.id; }
 
 }
