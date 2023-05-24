@@ -9,9 +9,11 @@ import se.omegapoint.pingpongapp.api.dto.ScoreCreatedResponse;
 import se.omegapoint.pingpongapp.api.biz.HighScoreEntry;
 import se.omegapoint.pingpongapp.api.dto.HighScoreDto;
 import se.omegapoint.pingpongapp.api.dto.CreateScoreRequest;
+import se.omegapoint.pingpongapp.api.dto.ScoreDto;
 import se.omegapoint.pingpongapp.api.services.*;
 
 import java.util.List;
+import java.util.UUID;
 
 
 @RestController
@@ -32,6 +34,12 @@ public class ScoreController {
                 .body(this.scoreService.ListHighScore().stream().map(HighScoreEntry::toDto).toList());
     }
 
+    @GetMapping("/score/{id}")
+    public ResponseEntity<ScoreDto> CreateScore(@PathVariable UUID id) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(this.scoreService.FindScoreEntry(id).toDto());
+    }
+
     @PostMapping("/score")
     public ResponseEntity<ScoreCreatedResponse> CreateScore(@Validated @RequestBody CreateScoreRequest request) {
 
@@ -50,6 +58,4 @@ public class ScoreController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(new ScoreCreatedResponse(scoreEntry.getId()));
     }
-
-
 }

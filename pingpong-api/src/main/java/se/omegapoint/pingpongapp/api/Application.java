@@ -26,7 +26,7 @@ public class Application {
 								  MatchService matchService,
 								  ScoreService scoreService) {
 		return (args) -> {
-			var p1 = playerService.createPlayer("Olaf");
+/*			var p1 = playerService.createPlayer("Olaf");
 			var p2 = playerService.createPlayer("Joan");
 			var p3 = playerService.createPlayer("Hellen");
 
@@ -45,7 +45,7 @@ public class Application {
 			for (HighScoreEntry e: scoreService.ListHighScore()) {
 				var dto = e.toDto();
 				System.out.println("\tPlayer: %s, Score: %d".formatted(dto.player().name(), dto.score()));
-			}
+			}*/
 		};
 	}
 }

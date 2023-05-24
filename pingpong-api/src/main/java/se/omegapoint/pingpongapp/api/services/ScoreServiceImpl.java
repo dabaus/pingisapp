@@ -23,6 +23,15 @@ public class ScoreServiceImpl implements ScoreService {
     public ScoreEntry CreateScoreEntry(Match match,Player player, int score) {
         return this.repo.save(new ScoreEntry(match, player, score));
     }
+
+    public ScoreEntry FindScoreEntry(UUID id) {
+        return this.repo.findById(id).orElse(null);
+    }
+
+    public Iterable<ScoreEntry> ListAllScoreEntries() {
+        return this.repo.findAll();
+    }
+
     public List<HighScoreEntry> ListHighScore() {
         var entires = new ArrayList<HighScoreEntry>();
         var session = sessionFactory.openSession();

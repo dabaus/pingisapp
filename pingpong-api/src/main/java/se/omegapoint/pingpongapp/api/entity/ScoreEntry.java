@@ -2,6 +2,7 @@ package se.omegapoint.pingpongapp.api.entity;
 
 import jakarta.persistence.*;
 import org.hibernate.id.GUIDGenerator;
+import se.omegapoint.pingpongapp.api.dto.ScoreDto;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -45,5 +46,6 @@ public class ScoreEntry {
         return this.score;
     }
     public UUID getId() { return this.id; }
+    public ScoreDto toDto() { return new ScoreDto(player.getId(), match.getId(), this.score); }
 
 }

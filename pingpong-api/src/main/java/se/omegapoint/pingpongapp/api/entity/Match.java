@@ -40,7 +40,7 @@ public class Match {
         return matchNo.nubmer;
     }
 
-    public MatchDto toMatchDto() {
+    public MatchDto toDto() {
         return new MatchDto(this.id, this.gameType, this.matchNo.nubmer);
     }
 

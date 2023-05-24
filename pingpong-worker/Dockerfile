@@ -1,4 +1,4 @@
-FROM arm64v8/eclipse-temurin:20 AS base
+FROM eclipse-temurin:20 AS base
 EXPOSE 8080
 FROM base as gradle-build
 WORKDIR /repo

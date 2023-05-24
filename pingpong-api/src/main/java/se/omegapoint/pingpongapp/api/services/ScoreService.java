@@ -6,9 +6,12 @@ import se.omegapoint.pingpongapp.api.entity.Player;
 import se.omegapoint.pingpongapp.api.entity.ScoreEntry;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface ScoreService {
 
     public ScoreEntry CreateScoreEntry(Match match, Player player, int score);
     public List<HighScoreEntry> ListHighScore();
+    public ScoreEntry FindScoreEntry(UUID id);
+    public Iterable<ScoreEntry> ListAllScoreEntries();
 }

@@ -4,5 +4,5 @@ import se.omegapoint.pingpongapp.api.entity.GameType;
 
 import java.util.UUID;
 
-public record MatchDto (UUID id, GameType type, long matchNo) {
+public record MatchDto (UUID id, GameType gameType, long matchNo) {
 }
