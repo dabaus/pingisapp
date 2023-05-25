@@ -11,16 +11,25 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import se.omegapoint.pingpongapp.api.dto.CreateScoreRequest;
+import se.omegapoint.pingpongapp.api.dto.PlayerDto;
+import se.omegapoint.pingpongapp.api.dto.ScoreDto;
 import se.omegapoint.pingpongapp.api.entity.GameType;
+import se.omegapoint.pingpongapp.api.entity.ScoreEntry;
 import se.omegapoint.pingpongapp.api.services.MatchService;
 import se.omegapoint.pingpongapp.api.services.PlayerService;
 import se.omegapoint.pingpongapp.api.services.ScoreService;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+
+import java.util.Arrays;
 
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.hamcrest.CoreMatchers.is;
+
+
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(
@@ -79,16 +88,27 @@ public class ScoreIT {
     }
 
     @Test
-    void  listScore() throws Exception {
+    void  listScores() throws Exception {
 
         var player = playerService.createPlayer("Fiona");
         var match = matchService.createMatch(GameType.STRESSKING);
         var score = scoreService.CreateScoreEntry(match,player,10);
 
-        mvc.perform(get("/score")
+        var content = mvc.perform(get("/score")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].playerId", is(player.getId())));
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        var dto = Arrays.stream(jsonMapper.readValue(content, ScoreDto[].class))
+                .filter( x ->  x.matchId().equals(match.getId()))
+                .findFirst()
+                .orElse(null);
+
+        assertEquals(dto.playerId(), player.getId());
+        assertEquals(dto.score(), score.getScore());
     }
+
 }

@@ -10,10 +10,14 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.util.Assert;
 import se.omegapoint.pingpongapp.api.dto.CreateMatchRequest;
 import se.omegapoint.pingpongapp.api.dto.CreatePlayerRequest;
+import se.omegapoint.pingpongapp.api.dto.PlayerDto;
 import se.omegapoint.pingpongapp.api.entity.GameType;
 import se.omegapoint.pingpongapp.api.services.PlayerService;
+
+import java.util.Arrays;
 
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.is;
@@ -67,12 +71,14 @@ class PlayerIT {
 	@Test
 	void listPlayers() throws  Exception {
 
-		playerService.createPlayer("Max");
+		var player = playerService.createPlayer("Max");
 
-		mvc.perform(get(String.format("/player"))
-						.contentType(MediaType.APPLICATION_JSON))
+		var result = mvc.perform(get(String.format("/player")).contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
-				.andExpect(jsonPath("$[0].name", is("Max")))
-				.andExpect(jsonPath("$[0].id", notNullValue()));
+				.andReturn();
+		var content = result.getResponse().getContentAsString();
+
+		var playerInList = Arrays.stream(jsonMapper.readValue(content, PlayerDto[].class)).anyMatch(x -> x.id().equals(player.getId()));
+		Assert.isTrue(playerInList,"Did not find player in list");
 	}
 }

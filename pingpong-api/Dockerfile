@@ -11,4 +11,4 @@ RUN ./gradlew build
 FROM base AS final
 VOLUME /tmp
 COPY --from=gradle-build ./repo/pingpong-api/build/libs/pingpong-api* app.jar
-ENTRYPOINT ["java","-jar","app.jar"]
+ENTRYPOINT ["java","-jar","app.jar", '-Dspring.profiles.active="k8s"']

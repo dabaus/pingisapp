@@ -24,3 +24,11 @@ spec:
             name: dev-config
         ports:
         - containerPort: 8080
+      - name: postgres
+        image: postgres:13.11
+        envFrom: 
+        - configMapRef:
+            name: dev-config
+        ports:
+        - containerPort: 8080
+        

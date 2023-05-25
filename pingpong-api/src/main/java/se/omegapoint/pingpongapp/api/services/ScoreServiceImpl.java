@@ -32,6 +32,10 @@ public class ScoreServiceImpl implements ScoreService {
         return this.repo.findAll();
     }
 
+    public void TriggerHighScoreComputation() {
+        //TODO send message to worker
+    }
+
     public List<HighScoreEntry> ListHighScore() {
         var entires = new ArrayList<HighScoreEntry>();
         var session = sessionFactory.openSession();

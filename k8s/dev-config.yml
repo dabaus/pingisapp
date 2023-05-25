@@ -4,4 +4,6 @@ metadata:
   name: dev-config
   namespace: default
 data:
-  MY_CONFIG_KEY: value
+  POSTGRES_PASSWORD: test123
+  POSTGRES_USER: postgres
+  POSTGRES_URL: postgresql://localhost:5432/pingpongdb

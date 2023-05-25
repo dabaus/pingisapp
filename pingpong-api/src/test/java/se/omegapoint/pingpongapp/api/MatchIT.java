@@ -10,12 +10,18 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.junit.Assert;
 import se.omegapoint.pingpongapp.api.dto.CreateMatchRequest;
+import se.omegapoint.pingpongapp.api.dto.MatchDto;
 import se.omegapoint.pingpongapp.api.entity.GameType;
 import se.omegapoint.pingpongapp.api.services.MatchService;
 
+import java.util.Arrays;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -65,12 +71,24 @@ public class MatchIT {
 
     @Test
     void listMatches() throws Exception {
-        matchService.createMatch(GameType.KING);
+        var match = matchService.createMatch(GameType.KING);
 
-        mvc.perform(get("/match")
+        var result = mvc.perform(get("/match")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].gameType", is(GameType.KING.toString())));
+                .andReturn();
+        var content = result.getResponse().getContentAsString();
+
+        var matchInList = Arrays.stream(jsonMapper.readValue(content, MatchDto[].class))
+                .filter(x -> x.id().equals(match.getId()))
+                .findFirst()
+                .orElse(null);
+
+        assertNotNull(matchInList);
+        assertEquals(matchInList.id(), match.getId());
+        assertEquals(matchInList.matchNo(), (long)match.getMatchNo());
+        assertEquals(matchInList.gameType(), match.getGameType());
+
     }
 
 }
